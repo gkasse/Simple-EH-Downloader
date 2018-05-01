@@ -6,7 +6,7 @@ import { parse } from 'url';
 import { accessSync, createWriteStream, mkdirSync, writeFileSync } from 'fs';
 import { internet } from 'faker/locale/ja';
 import { launch } from 'puppeteer';
-import { notice } from './index';
+import notice from './index';
 
 function exist(path) {
   try {
