@@ -1,7 +1,7 @@
-import {app, BrowserWindow, ipcMain, dialog, } from 'electron' // eslint-disable-line
-import {join} from 'path';
-import {homedir} from 'os';
-import {cancel, download} from './download';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
+import { join } from 'path';
+import { homedir } from 'os';
+import { cancel, download } from './download';
 
 /**
  * Set `__static` path to static files in production
@@ -68,6 +68,10 @@ app.on('ready', () => {
 })
  */
 
+export default function notice(eventName, ...args) {
+  mainWindow.webContents.send(eventName, args);
+}
+
 ipcMain.on('start-download', (event, url, doArchive) => {
   let saveDir;
   try {
@@ -87,7 +91,3 @@ ipcMain.on('start-download', (event, url, doArchive) => {
 ipcMain.on('cancel', () => {
   cancel().then(() => notice('canceled'));
 });
-
-export function notice(eventName, ...args) {
-  mainWindow.webContents.send(eventName, args);
-}
