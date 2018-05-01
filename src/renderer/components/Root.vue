@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import { ipcRenderer } from 'electron';
+  import { ipcRenderer } from 'electron'; // eslint-disable-line
   import { Notification } from 'element-ui';
 
   const data = {
