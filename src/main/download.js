@@ -26,12 +26,12 @@ async function sleep(millisec) {
 }
 
 async function parseThumbnailAnchors(page) {
+  const list = [];
   const anchors = await page.$$('.gdtm a');
-  const list = anchors.reduce((list, anchor) => {
-    list.push(page.evaluate(node => node.href, anchor));
-    return list;
-  }, []);
-  return Promise.all(list);
+  for (const anchor of anchors) {
+    list.push(await page.evaluate(node => node.href, anchor));
+  }
+  return list;
 }
 
 async function downloadImage(page, url, saveDir) {
@@ -90,7 +90,7 @@ export async function download(rootUrl, baseDir, doArchive) {
     for (let i = 1; i <= lastPage; i += 1) {
       await page.goto(`${rootUrl}?p=${i}`);
       await sleep(3000);
-      links.push(Promise.all(parseThumbnailAnchors(page)));
+      links.push(...(await parseThumbnailAnchors(page)));
     }
 
     notice('start-downloading');
