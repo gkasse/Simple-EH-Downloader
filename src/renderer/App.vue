@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'ehe',
+    name: 'Simple EH Downloader',
   };
 </script>
 
