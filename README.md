@@ -1,4 +1,4 @@
-# ehe
+# Simple EH Downloader
 
 > An electron-vue project
 

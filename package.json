@@ -21,7 +21,7 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "ehe",
+    "productName": "Simple-EH-Downloader",
     "appId": "org.simulatedgreg.electron-vue",
     "directories": {
       "output": "build"
