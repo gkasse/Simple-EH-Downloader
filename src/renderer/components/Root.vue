@@ -37,8 +37,8 @@
 </template>
 
 <script>
-  import {ipcRenderer} from 'electron';
-  import {Notification} from 'element-ui';
+  import { ipcRenderer } from 'electron';
+  import { Notification } from 'element-ui';
 
   const data = {
     url: '',
@@ -67,7 +67,7 @@
     data.nowLoading = false;
   });
   ipcRenderer.on('update-now', () => {
-    data.now++;
+    data.now += 1;
   });
   ipcRenderer.on('complete', () => {
     data.url = '';
@@ -95,13 +95,13 @@
       },
       cancel() {
         ipcRenderer.send('cancel');
-      }
+      },
     },
     computed: {
       progress() {
-        return Math.round(data.now / data.max * 100);
-      }
-    }
+        return Math.round((data.now / data.max) * 100);
+      },
+    },
   };
 </script>
 
