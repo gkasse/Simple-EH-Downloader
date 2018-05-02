@@ -66,17 +66,17 @@ function compress(fileName, targetDir) {
   archive.finalize();
 }
 
-function convertUnusableCharacter(chars) {
-  chars = chars.replaceAll('\\', '￥');
-  chars = chars.replaceAll('/', '／');
-  chars = chars.replaceAll(':', '：');
-  chars = chars.replaceAll('*', '＊');
-  chars = chars.replaceAll('?', '？');
-  chars = chars.replaceAll('"', '”');
-  chars = chars.replaceAll('<', '＜');
-  chars = chars.replaceAll('>', '＞');
-  chars = chars.replaceAll('|', '｜');
-  return chars;
+function convertUnusableCharacter(strings) {
+  strings = strings.replace(/\\/g, '￥');
+  strings = strings.replace(/\//g, '／');
+  strings = strings.replace(/:/g, '：');
+  strings = strings.replace(/\*/g, '＊');
+  strings = strings.replace(/\?/g, '？');
+  strings = strings.replace(/"/g, '”');
+  strings = strings.replace(/</g, '＜');
+  strings = strings.replace(/>/g, '＞');
+  strings = strings.replace(/\|/g, '｜');
+  return strings;
 }
 
 let browser;
