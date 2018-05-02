@@ -66,6 +66,19 @@ function compress(fileName, targetDir) {
   archive.finalize();
 }
 
+function convertUnusableCharacter(chars) {
+  chars = chars.replaceAll('\\', '￥');
+  chars = chars.replaceAll('/', '／');
+  chars = chars.replaceAll(':', '：');
+  chars = chars.replaceAll('*', '＊');
+  chars = chars.replaceAll('?', '？');
+  chars = chars.replaceAll('"', '”');
+  chars = chars.replaceAll('<', '＜');
+  chars = chars.replaceAll('>', '＞');
+  chars = chars.replaceAll('|', '｜');
+  return chars;
+}
+
 let browser;
 export async function download(rootUrl, baseDir, doArchive) {
   try {
@@ -74,7 +87,8 @@ export async function download(rootUrl, baseDir, doArchive) {
     await page.setUserAgent(internet.userAgent());
     await page.goto(rootUrl);
 
-    const title = await page.evaluate(h1 => h1.innerText, await page.$('#gn'));
+    let title = await page.evaluate(h1 => h1.innerText, await page.$('#gn'));
+    title = convertUnusableCharacter(title);
     const saveDir = join(doArchive ? tmpdir() : baseDir, title);
     if (!exist(saveDir)) {
       mkdirSync(saveDir);
