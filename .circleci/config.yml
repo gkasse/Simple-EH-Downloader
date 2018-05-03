@@ -2,12 +2,9 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:7.10
+      - image: gkasse/electron-builder
     working_directory: ~/repo
     steps:
-      - run:
-          name: Resolve dependency
-          command: apt install -y wine
       - checkout
       - restore_cache:
           keys:
@@ -18,7 +15,6 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm run lint
       - run: npm run build:win
 
 
