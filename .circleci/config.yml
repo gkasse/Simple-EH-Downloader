@@ -17,6 +17,9 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Linting
+          command: npm run lint
       - run: 
           name: Build application for Windows
           command: npm run build:win
