@@ -10,11 +10,17 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             - v1-dependencies-
-      - run: npm i
+      - run: 
+          name: Resolve dependencies
+          command: npm i
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm run build:win
+      - run: 
+          name: Build application for Windows
+          command: npm run build:win
+      - store_artifacts:
+          path: build/Simple-EH-Downloader.exe
 
 

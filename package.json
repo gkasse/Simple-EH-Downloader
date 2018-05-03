@@ -50,7 +50,9 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/icon.ico",
+      "target": "portable",
+      "artifactName": "Simple-EH-Downloader.exe"
     },
     "linux": {
       "icon": "build/icons"
