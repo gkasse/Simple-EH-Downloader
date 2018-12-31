@@ -1,9 +1,7 @@
-import {accessSync} from "fs";
+import { accessSync } from "fs";
 
 export class PathHelper {
-
-
-  static exists(path: string) {
+  public static exists(path: string) {
     try {
       accessSync(path);
       return true;

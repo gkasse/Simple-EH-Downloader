@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  parser: 'esprima',
+  parser: 'vue-eslint-parser',
   parserOptions: {
     sourceType: 'module'
   },
@@ -8,7 +8,10 @@ module.exports = {
     browser: true,
     node: true
   },
-  extends: 'standard',
+  extends: [
+    'plugin:vue/essential',
+    'eslint-config-prettier'
+  ],
   globals: {
     __static: true
   },
