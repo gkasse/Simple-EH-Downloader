@@ -10,7 +10,7 @@
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
-    "dev": "node .electron-vue/dev-runner.js",
+    "dev": "SVGA_VGPU10=0 node .electron-vue/dev-runner.js",
     "lint:renderer": "eslint src/renderer/**/*.vue",
     "lint:main": "tslint src/main/**/*.ts",
     "fix:main": "prettier --parser typescript --write src/main/**/*.ts",
@@ -50,18 +50,19 @@
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "icon": "build/icons/icon.ico"
+      "icon": "build/icons/icon.ico",
+      "target": "nsis"
     },
     "linux": {
       "icon": "build/icons"
     }
   },
   "dependencies": {
+    "@sentry/node": "^4.4.2",
     "archiver": "^3.0.0",
     "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
-    "dotenv": "^6.1.0",
-    "electron": "^2.0.4",
+    "dotenv": "^6.2.0",
     "element-ui": "^2.4.9",
     "spinkit": "^1.2.5",
     "vue": "^2.5.16",
@@ -87,6 +88,7 @@
     "css-loader": "^0.28.11",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
+    "electron": "^2.0.16",
     "electron-builder": "^20.19.2",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
