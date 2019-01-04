@@ -5,7 +5,7 @@ export let mainWindow;
 app.on("ready", () => {
   init({
     dsn: process.env.SENTRY_DSN,
-    environment: process.env.NODE_ENV,
+    environment: process.env.NODE_ENV
   });
 
   mainWindow = new BrowserWindow({
@@ -13,12 +13,14 @@ app.on("ready", () => {
     height: 350,
     useContentSize: true,
     webPreferences: {
-      webSecurity: false,
+      webSecurity: false
     },
     width: 450
   });
 
-  mainWindow.loadURL(process.env.WINDOW_URL || `file://${__dirname}/index.html`);
+  mainWindow.loadURL(
+    process.env.WINDOW_URL || `file://${__dirname}/index.html`
+  );
   mainWindow.on("closed", () => {
     if (process.platform !== "darwin") {
       app.quit();
