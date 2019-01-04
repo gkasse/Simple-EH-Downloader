@@ -23,7 +23,7 @@ export class Gallery {
       })
       .then(res => res.data)
       .then(load);
-    const title = $("#gj").text();
+    const title = $("#gj").text() || $("#gn").text();
     const images = await this.fetchAllImages($);
     return new Gallery(url, title, images);
   }
