@@ -64,6 +64,7 @@
     "cheerio": "^1.0.0-rc.2",
     "dotenv": "^6.2.0",
     "element-ui": "^2.4.9",
+    "rxjs": "^6.3.3",
     "spinkit": "^1.2.5",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
