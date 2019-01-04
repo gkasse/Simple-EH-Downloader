@@ -1,4 +1,4 @@
-import { dialog } from "electron";
+import { dialog } from "electron"; // tslint:disable-line
 import { homedir } from "os";
 import { join } from "path";
 import { mainWindow } from "../handler/AppEventHandler";

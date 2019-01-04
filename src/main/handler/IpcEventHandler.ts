@@ -1,4 +1,5 @@
-import { ipcMain } from "electron";
+import { captureException } from "@sentry/node";
+import { ipcMain } from "electron"; // tslint:disable-line
 import { Gallery } from "../model/Gallery";
 import { StorePathResolver } from "../resolver/StorePathResolver";
 
@@ -15,7 +16,7 @@ ipcMain.on("download", async (event, url: string, path: string) => {
     await gallery.store(path);
     event.sender.send("complete");
   } catch (e) {
-    console.error(e);
+    captureException(e);
     event.sender.send("error");
   }
 });

@@ -59,7 +59,8 @@ if (process.env.NODE_ENV === 'production') {
     new BabiliWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"',
-      'process.env.WINDOW_URL': `"file://${__dirname}/index.html"`
+      'process.env.SENTRY_URL': `"${process.env.SENTRY_DSN}"`
+      // WINDOW_URLは実行時に解決するため設定しない
     })
   )
 }
