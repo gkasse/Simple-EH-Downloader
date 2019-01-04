@@ -21,7 +21,7 @@
             :text-inside="true"
             :stroke-width="20"
             color="rgba(201, 23, 30, 1.0)"
-            :percentage="progress"
+            :percentage="progress()"
           ></el-progress>
           <p class="progress-info">{{ now }} / {{ max }}</p>
         </div>
@@ -75,8 +75,7 @@ ipcRenderer.on("canceled", () => {
   data.now = 0;
   Notification.warning("処理をキャンセルしました");
 });
-ipcRenderer.on("update-max", (event, args) => {
-  const [total] = args;
+ipcRenderer.on("update-max", (event, total) => {
   data.max = total;
 });
 ipcRenderer.on("startDownload", () => {
@@ -111,13 +110,15 @@ export default {
     },
     cancel() {
       ipcRenderer.send("cancel");
-    }
-  },
-  computed: {
+    },
     progress() {
+      const rate = data.now / data.max;
+      if (isNaN(rate)) {
+        return 0;
+      }
       return Math.round((data.now / data.max) * 100);
     }
-  }
+  },
 };
 </script>
 

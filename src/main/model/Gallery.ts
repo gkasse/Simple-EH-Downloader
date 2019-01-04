@@ -1,10 +1,13 @@
+import { captureException } from "@sentry/node";
 import archiver from "archiver";
 import axios from "axios";
 import { load } from "cheerio";
-import { createWriteStream, readdir, rmdir, unlink } from "fs";
+import { WebContents } from "electron"; // tslint:disable-line
+import { createWriteStream, readdirSync, rmdirSync, unlinkSync, existsSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
-import { promisify } from "util";
+import { of, from, queueScheduler } from "rxjs";
+import { delay, tap, flatMap } from "rxjs/operators";
 import { CharacterResolver } from "../resolver/CharacterResolver";
 import { DirectoryResolver } from "../resolver/DirectoryResolver";
 import { Image } from "./Image";
@@ -73,20 +76,27 @@ export class Gallery {
     this.images = images;
   }
 
-  public async store(path: string) {
+  public async store(path: string, eventEmitter: WebContents) {
     if (!this.title) {
       throw new Error("title is falsy.");
     }
-    const workDir = DirectoryResolver.resolve(tmpdir(), this.title);
-    await Promise.all(
-      this.images.map(image => {
-        return Gallery.wait(3000).then(() => image.download(workDir));
-      })
-    );
 
+    const workDir = DirectoryResolver.resolve(tmpdir(), this.title);
     const fileName = `${join(path, CharacterResolver.resolve(this.title))}.zip`;
+    await of(...this.images, queueScheduler).pipe(
+        flatMap(image => from(image.download(workDir))),
+        delay(500),
+        tap(
+            () => eventEmitter.send("update-now"),
+            captureException,
+            () => this.createArchive(workDir, fileName)
+        )
+    ).toPromise();
+  }
+
+  private createArchive(workDir: string, fileName: string) {
     const stream = createWriteStream(fileName);
-    stream.on("close", async () => this.cleaning(workDir));
+    stream.on("close", () => this.cleaning(workDir));
     const archive = archiver.create("zip", {
       zlib: {
         level: 9
@@ -97,12 +107,9 @@ export class Gallery {
     archive.finalize();
   }
 
-  private async cleaning(workDirPath: string) {
-    const readdirAsync = promisify(readdir);
-    const unlinkAsync = promisify(unlink);
-    const rmdirAsync = promisify(rmdir);
-    const files = await readdirAsync(workDirPath);
-    await Promise.all(files.map(file => unlinkAsync(join(workDirPath, file))));
-    rmdirAsync(workDirPath);
+  private cleaning(workDirPath: string) {
+    const files = readdirSync(workDirPath);
+    files.filter(file => existsSync(join(workDirPath, file))).forEach(file => unlinkSync(join(workDirPath, file)));
+    rmdirSync(workDirPath);
   }
 }

@@ -1,9 +1,8 @@
 import axios from "axios";
 import { load } from "cheerio";
-import { writeFileSync } from "fs";
+import { existsSync, writeFileSync } from "fs";
 import { basename, join } from "path";
 import { parse } from "url";
-import { PathHelper } from "../helper/PathHelper";
 
 export class Image {
   private readonly url: string;
@@ -20,13 +19,12 @@ export class Image {
     const src = $("#img").attr("src");
     const fileName = basename(parse(src).pathname);
     const filePath = join(basePath, fileName);
-    if (PathHelper.exists(filePath)) {
+    if (existsSync(filePath)) {
       return;
     }
 
-    const body = await axios
+    await axios
       .get(src, { responseType: "arraybuffer" })
-      .then(res => res.data);
-    writeFileSync(filePath, body);
+      .then(res => writeFileSync(filePath, res.data));
   }
 }

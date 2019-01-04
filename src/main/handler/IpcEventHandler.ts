@@ -13,7 +13,7 @@ ipcMain.on("download", async (event, url: string, path: string) => {
     event.sender.send("startDownload");
     const gallery = await Gallery.parse(url);
     event.sender.send("update-max", gallery.images.length);
-    await gallery.store(path);
+    await gallery.store(path, event.sender);
     event.sender.send("complete");
   } catch (e) {
     captureException(e);
