@@ -1,5 +1,7 @@
 'use strict'
 
+require('dotenv').load();
+
 process.env.BABEL_ENV = 'main'
 
 const path = require('path')
@@ -59,7 +61,7 @@ if (process.env.NODE_ENV === 'production') {
     new BabiliWebpackPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"',
-      'process.env.SENTRY_URL': `"${process.env.SENTRY_DSN}"`
+      'process.env.SENTRY_DSN': `"${process.env.SENTRY_DSN}"`
       // WINDOW_URLは実行時に解決するため設定しない
     })
   )

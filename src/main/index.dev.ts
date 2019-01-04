@@ -20,5 +20,7 @@ require('electron').app.on('ready', () => {
     });
 });
 
+require('dotenv').load();
+
 // Require `main` process to boot app
 require('./index');
