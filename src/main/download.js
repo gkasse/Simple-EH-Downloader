@@ -87,7 +87,7 @@ export async function download(rootUrl, baseDir, doArchive) {
     await page.setUserAgent(internet.userAgent());
     await page.goto(rootUrl);
 
-    let title = await page.evaluate(h1 => h1.innerText, await page.$('#gn'));
+    let title = await page.evaluate(h1 => h1.innerText, await page.$('#gj'));
     title = convertUnusableCharacter(title);
     const saveDir = join(doArchive ? tmpdir() : baseDir, title);
     if (!exist(saveDir)) {
